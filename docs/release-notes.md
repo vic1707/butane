@@ -9,6 +9,7 @@ nav_order: 9
 ### Features
 
 - Add support for loading `inline` and `local` butane files, these are automatically translated to `ignition`.
+- Add support for [`gomplate`](https://github.com/hairyhenderson/gomplate) integration, opt-in via `--enable-gomplate`
 
 ### Bug fixes
 
