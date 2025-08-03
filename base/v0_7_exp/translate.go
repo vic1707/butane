@@ -191,53 +191,12 @@ func translateResource(from Resource, options common.TranslateOptions) (to types
 			return
 		}
 
-		contents, rp, err := ToIgn3_6Bytes(contents, common.TranslateBytesOptions{
-			Pretty:           false,
-			Raw:              true,
-			TranslateOptions: options,
-		})
-		r.Merge(rp)
-		if err != nil {
-			return
-		}
-
-		// Validating the contents of the local file from here since there is no way to
-		// get both the filename and filedirectory in the Validate context
-		if strings.HasPrefix(c.String(), "$.ignition.config") {
-			rp, err := ValidateIgnitionConfig(c, contents)
-			r.Merge(rp)
-			if err != nil {
-				return
-			}
-		}
-
-		contentToURL(contents, c, &r, &to, &tm, options)
+		translateButaneResource(contents, c, &r, &to, &tm, options)
 	}
 
 	if from.InlineButane != nil {
 		c := path.New("yaml", "inline_butane")
-
-		contents, rp, err := ToIgn3_6Bytes([]byte(*from.InlineButane), common.TranslateBytesOptions{
-			Pretty:           false,
-			Raw:              true,
-			TranslateOptions: options,
-		})
-		r.Merge(rp)
-		if err != nil {
-			return
-		}
-
-		// Validating the contents of the local file from here since there is no way to
-		// get both the filename and filedirectory in the Validate context
-		if strings.HasPrefix(c.String(), "$.ignition.config") {
-			rp, err := ValidateIgnitionConfig(c, contents)
-			r.Merge(rp)
-			if err != nil {
-				return
-			}
-		}
-
-		contentToURL(contents, c, &r, &to, &tm, options)
+		translateButaneResource([]byte(*from.InlineButane), c, &r, &to, &tm, options)
 	}
 
 	return
@@ -576,4 +535,28 @@ func contentToURL(contents []byte, c path.ContextPath, r *report.Report, to *typ
 		to.Compression = compression
 		tm.AddTranslation(c, path.New("json", "compression"))
 	}
+}
+
+func translateButaneResource(butaneContents []byte, c path.ContextPath, r *report.Report, to *types.Resource, tm *translate.TranslationSet, options common.TranslateOptions) {
+	contents, rp, err := ToIgn3_6Bytes(butaneContents, common.TranslateBytesOptions{
+		Pretty:           false,
+		Raw:              true,
+		TranslateOptions: options,
+	})
+	r.Merge(rp)
+	if err != nil {
+		return
+	}
+
+	// Validating the contents of the local file from here since there is no way to
+	// get both the filename and filedirectory in the Validate context
+	if strings.HasPrefix(c.String(), "$.ignition.config") {
+		rp, err := ValidateIgnitionConfig(c, contents)
+		r.Merge(rp)
+		if err != nil {
+			return
+		}
+	}
+
+	contentToURL(contents, c, r, to, tm, options)
 }
