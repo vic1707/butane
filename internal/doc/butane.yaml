@@ -39,7 +39,12 @@ resource:
               max: 1.0.0
     - name: local_butane
       after: source
-      desc: "a local path to the contents of the %TYPE%, relative to the directory specified by the `--files-dir` command-line argument. Mutually exclusive with `source` and `inline`."
+      desc: "a local %TYPE%, relative to the directory specified by the `--files-dir` command-line argument. Mutually exclusive with `source` and `inline`."
+      children:
+        - name: path
+          desc: "path to the %TYPE%"
+        - name: files_dir
+          desc: "custom files_dir to use, path local from said file"
 
 mode:
   # File mode transforms.
@@ -258,7 +263,7 @@ root:
                 - name: source
                   transforms:
                     - regex: "Supported schemes are .* haven't been modified."
-                      replacement: 'Only the [`data`](https://tools.ietf.org/html/rfc2397) scheme is supported.'
+                      replacement: "Only the [`data`](https://tools.ietf.org/html/rfc2397) scheme is supported."
                       if:
                         - variant: openshift
             - name: mode
