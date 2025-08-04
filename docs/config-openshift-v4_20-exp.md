@@ -26,7 +26,9 @@ The OpenShift configuration is a YAML document conforming to the following speci
       * **_inline_** (string): the contents of the config. Mutually exclusive with `source` and `local`.
       * **_local_** (string): a local path to the contents of the config, relative to the directory specified by the `--files-dir` command-line argument. Mutually exclusive with `source` and `inline`.
       * **_inline_butane_** (string): the contents of the config. Mutually exclusive with `source` and `local`.
-      * **_local_butane_** (string): a local path to the contents of the config, relative to the directory specified by the `--files-dir` command-line argument. Mutually exclusive with `source` and `inline`.
+      * **_local_butane_** (object): a local config, relative to the directory specified by the `--files-dir` command-line argument. Mutually exclusive with `source` and `inline`.
+        * **_path_** (string): path to the config
+        * **_files_dir_** (string): custom files_dir to use, path local from said file
       * **_compression_** (string): the type of compression used on the config (null or gzip). Compression cannot be used with S3.
       * **_http_headers_** (list of objects): a list of HTTP headers to be added to the request. Available for `http` and `https` source schemes only.
         * **name** (string): the header name.
@@ -38,7 +40,9 @@ The OpenShift configuration is a YAML document conforming to the following speci
       * **_inline_** (string): the contents of the config. Mutually exclusive with `source` and `local`.
       * **_local_** (string): a local path to the contents of the config, relative to the directory specified by the `--files-dir` command-line argument. Mutually exclusive with `source` and `inline`.
       * **_inline_butane_** (string): the contents of the config. Mutually exclusive with `source` and `local`.
-      * **_local_butane_** (string): a local path to the contents of the config, relative to the directory specified by the `--files-dir` command-line argument. Mutually exclusive with `source` and `inline`.
+      * **_local_butane_** (object): a local config, relative to the directory specified by the `--files-dir` command-line argument. Mutually exclusive with `source` and `inline`.
+        * **_path_** (string): path to the config
+        * **_files_dir_** (string): custom files_dir to use, path local from said file
       * **_compression_** (string): the type of compression used on the config (null or gzip). Compression cannot be used with S3.
       * **_http_headers_** (list of objects): a list of HTTP headers to be added to the request. Available for `http` and `https` source schemes only.
         * **name** (string): the header name.
@@ -55,7 +59,9 @@ The OpenShift configuration is a YAML document conforming to the following speci
         * **_inline_** (string): the contents of the certificate bundle (in PEM format). The bundle can contain multiple concatenated certificates. Mutually exclusive with `source` and `local`.
         * **_local_** (string): a local path to the contents of the certificate bundle (in PEM format), relative to the directory specified by the `--files-dir` command-line argument. The bundle can contain multiple concatenated certificates. Mutually exclusive with `source` and `inline`.
         * **_inline_butane_** (string): the contents of the certificate bundle. Mutually exclusive with `source` and `local`.
-        * **_local_butane_** (string): a local path to the contents of the certificate bundle, relative to the directory specified by the `--files-dir` command-line argument. Mutually exclusive with `source` and `inline`.
+        * **_local_butane_** (object): a local certificate bundle, relative to the directory specified by the `--files-dir` command-line argument. Mutually exclusive with `source` and `inline`.
+          * **_path_** (string): path to the certificate bundle
+          * **_files_dir_** (string): custom files_dir to use, path local from said file
         * **_compression_** (string): the type of compression used on the certificate bundle (null or gzip). Compression cannot be used with S3.
         * **_http_headers_** (list of objects): a list of HTTP headers to be added to the request. Available for `http` and `https` source schemes only.
           * **name** (string): the header name.
@@ -104,7 +110,9 @@ The OpenShift configuration is a YAML document conforming to the following speci
       * **_inline_** (string): the contents of the file. Mutually exclusive with `source` and `local`.
       * **_local_** (string): a local path to the contents of the file, relative to the directory specified by the `--files-dir` command-line argument. Mutually exclusive with `source` and `inline`.
       * **_inline_butane_** (string): the contents of the file. Mutually exclusive with `source` and `local`.
-      * **_local_butane_** (string): a local path to the contents of the file, relative to the directory specified by the `--files-dir` command-line argument. Mutually exclusive with `source` and `inline`.
+      * **_local_butane_** (object): a local file, relative to the directory specified by the `--files-dir` command-line argument. Mutually exclusive with `source` and `inline`.
+        * **_path_** (string): path to the file
+        * **_files_dir_** (string): custom files_dir to use, path local from said file
       * **_compression_** (string): the type of compression used on the file (null or gzip). Compression cannot be used with S3.
       * **_verification_** (object): options related to the verification of the file.
         * **_hash_** (string): the hash of the file, in the form `<type>-<value>` where type is either `sha512` or `sha256`. If `compression` is specified, the hash describes the decompressed file.
@@ -123,7 +131,9 @@ The OpenShift configuration is a YAML document conforming to the following speci
       * **_inline_** (string): the contents of the key file. Mutually exclusive with `source` and `local`.
       * **_local_** (string): a local path to the contents of the key file, relative to the directory specified by the `--files-dir` command-line argument. Mutually exclusive with `source` and `inline`.
       * **_inline_butane_** (string): the contents of the key file. Mutually exclusive with `source` and `local`.
-      * **_local_butane_** (string): a local path to the contents of the key file, relative to the directory specified by the `--files-dir` command-line argument. Mutually exclusive with `source` and `inline`.
+      * **_local_butane_** (object): a local key file, relative to the directory specified by the `--files-dir` command-line argument. Mutually exclusive with `source` and `inline`.
+        * **_path_** (string): path to the key file
+        * **_files_dir_** (string): custom files_dir to use, path local from said file
       * **_compression_** (string): the type of compression used on the key file (null or gzip). Compression cannot be used with S3.
       * **_http_headers_** (list of objects): a list of HTTP headers to be added to the request. Available for `http` and `https` source schemes only.
         * **name** (string): the header name.
