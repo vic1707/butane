@@ -168,20 +168,33 @@ func TranslateResource(from Resource, options common.TranslateOptions) (to types
 
 	if from.LocalButane != nil {
 		c := path.New("yaml", "local_butane")
+		cc := path.New("yaml", "content")
+		if from.LocalButane.Path == nil {
+			r.AddOnError(cc, fmt.Errorf("content is required"))
+			return
+		}
 
-		contents, err := baseutil.ReadLocalFile(*from.LocalButane, options.FilesDir)
+		cfd := path.New("yaml", "files_dir")
+		if from.LocalButane.FilesDir == util.StrToPtr("") {
+			r.AddOnError(cfd, fmt.Errorf("files_dir cannot be empty"))
+			return
+		}
+
+		contents, err := baseutil.ReadLocalFile(*from.LocalButane.Path, options.FilesDir)
 		if err != nil {
 			r.AddOnError(c, err)
 			return
 		}
 
-		translateButaneResource(contents, c, &r, &to, &tm, options)
+		butaneFilesDir := filepath.Join(options.FilesDir, filepath.Dir(*from.LocalButane.Path), *from.LocalButane.FilesDir)
+
+		translateButaneResource(contents, butaneFilesDir, c, &r, &to, &tm, options)
 	}
 
 	if from.InlineButane != nil {
 		c := path.New("yaml", "inline_butane")
 
-		translateButaneResource([]byte(*from.InlineButane), c, &r, &to, &tm, options)
+		translateButaneResource([]byte(*from.InlineButane), options.FilesDir, c, &r, &to, &tm, options)
 	}
 
 	return
@@ -522,7 +535,8 @@ func contentToURL(contents []byte, c path.ContextPath, r *report.Report, to *typ
 	}
 }
 
-func translateButaneResource(butaneContents []byte, c path.ContextPath, r *report.Report, to *types.Resource, tm *translate.TranslationSet, options common.TranslateOptions) {
+func translateButaneResource(butaneContents []byte, filesDir string, c path.ContextPath, r *report.Report, to *types.Resource, tm *translate.TranslationSet, options common.TranslateOptions) {
+	options.FilesDir = filesDir
 	contents, rp, err := common.TranslateBytes(butaneContents, common.TranslateBytesOptions{
 		Pretty:           false,
 		Raw:              true,
